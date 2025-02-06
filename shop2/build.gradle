@@ -57,6 +57,10 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5
 	implementation group: 'org.thymeleaf.extras', name: 'thymeleaf-extras-springsecurity6', version: '3.1.3.RELEASE'
 
+	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper  dto 간편화 라이브러리
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.2'
+
+
 
 
 

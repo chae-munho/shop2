@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "orders")  // 정렬할 때 order 키워드가 있기 때문에 Order 엔티티에 매핑되는 테이블로 orders를 지정한다.
 @Getter
 @Setter
-public class Order {
+public class Order extends BaseEntity{
     @Id
     @Column(name = "order_id")
     @GeneratedValue   //@GeneratedValue 기본값은 (strategy=Generation.AUTO) AUto는 데이터베이스의 identity, sequence, table 전략 중 적절한 것을 자동으로 선택하도록 한다.
@@ -35,7 +35,7 @@ public class Order {
 
 
 
-    private LocalDateTime regTime;
+    //private LocalDateTime regTime;
 
-    private LocalDateTime updateTime;
+    //private LocalDateTime updateTime;
 }
