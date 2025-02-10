@@ -37,7 +37,7 @@ public class ItemFormDto {
     private static ModelMapper modelMapper = new ModelMapper();
 
     public Item createItem() {
-        return modelMapper.map(this, Item.class); //3.
+        return modelMapper.map(this, Item.class); //3. this : 현재 객체를 가리킨다. Item.class : 변환하고자 하는 대상 클래스
     }
     public static ItemFormDto of(Item item) {  // 4. modelMapper를 이용하여 엔티티 객체와 DTO 객체 간의 데이터를 복사하여 복사한 객체를 반환해주는 메소드입니다.
         return modelMapper.map(item, ItemFormDto.class);
