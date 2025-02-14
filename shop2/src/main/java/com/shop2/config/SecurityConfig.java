@@ -15,6 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -29,6 +30,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.csrfTokenRepository(new CookieCsrfTokenRepository()))  //세션이 없을때도 csrf가 정상적으로 동작하게 하려면 SecurityConfig에 CookieCsrfTokenRepository를 사용해야함 해당 방식은 서버에서 첫 번째 요청이더라도 http only 쿠키를 생성해서 csrf 토큰을 생성 후 저장한다.
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .authorizeHttpRequests(authorizeHttpRequestsCustomizer -> authorizeHttpRequestsCustomizer  //시큐리티 처리에 HttpServletRequest를 이용한다는 것을 의미
                         .requestMatchers("/css/**", "/js/**", "/img/**").permitAll()  //permitAll()을 통해 모든 사용자가 인증(로그인)없이 해당 경로에 접근할 수 있도록 설정한다. 메인 페이지, 회원 관련 url, 뒤에서 만들 상품 상세 페이지, 상품 이미지를 불러오는 경로가 이에 해당한다
                         .requestMatchers("/", "/members/**", "/item/**", "/images/**").permitAll()
