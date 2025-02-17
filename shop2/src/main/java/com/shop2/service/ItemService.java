@@ -5,6 +5,7 @@ package com.shop2.service;
 
 import com.shop2.dto.ItemFormDto;
 import com.shop2.dto.ItemImgDto;
+import com.shop2.dto.ItemSearchDto;
 import com.shop2.entity.Item;
 import com.shop2.entity.ItemImg;
 import com.shop2.repository.ItemImgRepository;
@@ -12,6 +13,8 @@ import com.shop2.repository.ItemRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -79,5 +82,10 @@ public class ItemService {
             itemImgService.updateItemImg(itemImgIds.get(i), itemImgFileList.get(i));
         }
         return item.getId();
+    }
+    //상품 조회 조건과 페이지 정보를 파라미터로 받아서 상품 데이터를 조회하는 getAdminItemPage() 메소드를 추가. 데이터의 수정이 일어나지 않아므로 최적화를 위해 @Transactional(readOnly=true)어노테이션을 설정
+    @Transactional(readOnly = true)
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+        return itemRepository.getAdminItemPage(itemSearchDto, pageable);
     }
 }
