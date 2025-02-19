@@ -6,6 +6,7 @@ package com.shop2.service;
 import com.shop2.dto.ItemFormDto;
 import com.shop2.dto.ItemImgDto;
 import com.shop2.dto.ItemSearchDto;
+import com.shop2.dto.MainItemDto;
 import com.shop2.entity.Item;
 import com.shop2.entity.ItemImg;
 import com.shop2.repository.ItemImgRepository;
@@ -87,5 +88,11 @@ public class ItemService {
     @Transactional(readOnly = true)
     public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
         return itemRepository.getAdminItemPage(itemSearchDto, pageable);
+    }
+
+    //메인 페이지 보여줄 상품 데이터를 조회하는 메소드 작성
+    @Transactional(readOnly = true)
+    public Page<MainItemDto> getMainItemPage(ItemSearchDto itemSearchDto, Pageable pageable) {
+        return itemRepository.getMainItemPage(itemSearchDto, pageable);
     }
 }

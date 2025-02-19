@@ -2,9 +2,11 @@ package com.shop2.config;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+@Configuration
 public class WebMvcConfig implements WebMvcConfigurer { // WebMvcConfigurer는 여러 mvc 관련 설정을 조정할 수 있도록 제공되는 인터페이스
 
       //application.properties에 설정한 uploadPath 프로퍼티 값을 읽어온다
