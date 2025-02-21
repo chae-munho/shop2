@@ -38,4 +38,30 @@ public class Order extends BaseEntity{
     //private LocalDateTime regTime;
 
     //private LocalDateTime updateTime;
+
+    //생성한 주문상품 객체(OrderItem)이용하여 주문 객체를 만드는 메소드를 작성
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+    public static Order createOrder(Member member, List<OrderItem> orderItemList) {
+        Order order = new Order();
+        order.setMember(member);
+        for (OrderItem orderItem : orderItemList) {
+            order.addOrderItem(orderItem);
+        }
+        //주문 상태를 order로 세팅한다.
+        order.setOrderStatus(OrderStatus.ORDER);
+        order.setOrderDate(LocalDateTime.now());
+        return order;
+    }
+
+    //총 금액을 구하는 메소드
+    public int getTotalPrice() {
+        int totalPrice = 0;
+        for(OrderItem orderItem : orderItems) {
+            totalPrice += orderItem.getTotalPrice();
+        }
+        return  totalPrice;
+    }
 }
