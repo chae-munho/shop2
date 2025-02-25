@@ -62,6 +62,13 @@ public class Item extends BaseEntity{
         this.stockNumber = restStock;
 
     }
+    /*
+        주문을 취소할 경우 해당 주문의 상태를 취소 상태로 만들어주고 상품의 재고를 감소시켰던 만큼 다시 더해주면 된다. 상품의 재고를 더해주기 위해서 Item 클래스에 addStock 메소드를 생성한다.
+    */
+    // 상품의 재고를 증가시키는 메소드이다.
+    public void addStock(int stockNumber) {
+        this.stockNumber += stockNumber;
+    }
 
 
 }

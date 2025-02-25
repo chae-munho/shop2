@@ -38,4 +38,11 @@ public class Cart extends BaseEntity{
     public void setMember(Member member) {
         this.member = member;
     }
+
+    //회원 한 명당 1개의 장바구니를 갖으므로 처음 장바구니에 상품을 담을 때는 해당 회원의 장바구니를 생성해주워야. Cart 클래스에 회원 엔티티를 파라미터로 받아서 엔티티를 생성하는 로직 추가
+    public static Cart createCart(Member member) {
+        Cart cart = new Cart();
+        cart.setMember(member);
+        return cart;
+    }
 }

@@ -1,6 +1,7 @@
 package com.shop2.service;
 
 import com.shop2.constant.ItemSellStatus;
+import com.shop2.constant.OrderStatus;
 import com.shop2.dto.OrderDto;
 import com.shop2.entity.Item;
 import com.shop2.entity.Member;
@@ -10,6 +11,7 @@ import com.shop2.repository.ItemRepository;
 import com.shop2.repository.MemberRepository;
 import com.shop2.repository.OrderRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.aspectj.weaver.ast.Or;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,25 @@ class OrderServiceTest {
         int totalPrice = orderDto.getCount() * item.getPrice();
         //주문한 상품의 총 가격과 데이터베이스에 저장된 상품의 가격을 비교하여 같으면 테스트가 성공적으로 종료된다
         assertEquals(totalPrice, order.getTotalPrice());
+    }
+
+    //주문 취소 로직 테스트
+    @Test
+    @DisplayName("주문 취소 테스트")
+    public void cancelOrder() {
+        Item item = saveItem();
+        Member member = saveMember();
+
+        OrderDto orderDto = new OrderDto();
+        orderDto.setCount(10);
+        orderDto.setItemId(item.getId());
+        Long orderId = orderService.order(orderDto, member.getEmail());
+
+        Order order = orderRepository.findById(orderId).orElseThrow(EntityNotFoundException::new);
+        orderService.cancelOrder(orderId);
+
+        assertEquals(OrderStatus.CANCEL, order.getOrderStatus());
+        assertEquals(100, item.getStockNumber());
     }
 
 }
