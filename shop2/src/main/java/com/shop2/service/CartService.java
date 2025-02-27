@@ -93,4 +93,9 @@ public class CartService {
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(EntityNotFoundException::new);
         cartItem.updateCount(count);
     }
+    //상품 정보에 있는 x 버튼을 클릭할 때 장바구니에 넣어 놓은 상품을 삭제하는 예제
+    public void deleteCartItem(Long cartItemId) {
+        CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(EntityNotFoundException::new);
+        cartItemRepository.delete(cartItem);
+    }
 }
