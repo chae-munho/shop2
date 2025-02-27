@@ -35,4 +35,10 @@ public class CartItem extends BaseEntity{
     public void addCount(int count) {
         this.count += count;
     }
+
+    //장바구니에서 상품의 수량을 변경할 경우 실시간으로 해당 회원의 장바구니 상품의 수량도 변경하도록 로직 추가
+    public void updateCount(int count) {
+        this.count = count;
+    }
+    //CartController 클래스에 장바구니 상품의 수량을 업데이트하는 요청을 처리하는 로직 추가
 }
