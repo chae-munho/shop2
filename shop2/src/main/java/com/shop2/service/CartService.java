@@ -2,6 +2,8 @@ package com.shop2.service;
 
 import com.shop2.dto.CartDetailDto;
 import com.shop2.dto.CartItemDto;
+import com.shop2.dto.CartOrderDto;
+import com.shop2.dto.OrderDto;
 import com.shop2.entity.Cart;
 import com.shop2.entity.CartItem;
 import com.shop2.entity.Item;
@@ -28,6 +30,7 @@ public class CartService {
     private final MemberRepository memberRepository;
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
+    private final OrderService orderService;
 
     public Long addCart(CartItemDto cartItemDto, String email) {
 
@@ -97,5 +100,26 @@ public class CartService {
     public void deleteCartItem(Long cartItemId) {
         CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(EntityNotFoundException::new);
         cartItemRepository.delete(cartItem);
+    }
+    //CartService 클래스에서는 주문 로직으로 전달할 orderDto 리스트 생성 및 주문 로직 호출, 주문한 상품은 장바구니에서 제거하는 로직을 구현
+    // 장바구니에서 선택된 상품을 주문하는 기능을 수행
+    public Long orderCartItem(List<CartOrderDto> cartOrderDtoList, String email) {
+        List<OrderDto> orderDtoList = new ArrayList<>();
+        for (CartOrderDto cartOrderDto : cartOrderDtoList) {
+            CartItem cartItem = cartItemRepository.findById(cartOrderDto.getCartItemId()).orElseThrow(EntityNotFoundException::new);
+
+            OrderDto orderDto = new OrderDto();
+            orderDto.setItemId(cartItem.getItem().getId());
+            orderDto.setCount(cartItem.getCount());
+            orderDtoList.add(orderDto);
+        }
+        Long orderId = orderService.orders(orderDtoList, email);
+        //장바구니에서 상품을 주문했으면 주문한 상품을 장바구니에서 삭제하는 반복문
+        for (CartOrderDto cartOrderDto : cartOrderDtoList) {
+            CartItem cartItem = cartItemRepository.findById(cartOrderDto.getCartItemId()).orElseThrow(EntityNotFoundException::new);
+            cartItemRepository.delete(cartItem);
+        }
+        //최종적으로 주문 ID를 반환한다.
+        return orderId;
     }
 }

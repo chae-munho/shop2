@@ -117,13 +117,22 @@
             });
         }
 
+        // 사용자가 장바구니에서 선택한 상품을 주문할 때 실행된다.
         function orders(){
+            //csrf 토큰 값을 가져옴
             var token = $("meta[name='_csrf']").attr("content");
+
+            //csrf 토큰 헤더 이름을 가져옴
             var header = $("meta[name='_csrf_header']").attr("content");
+
+
 
             var url = "/cart/orders";
 
+            // 주문할 상품 정보를 저장할 배열
             var dataList = new Array();
+
+            //서버로 전송할 최종 JSON 객체
             var paramData = new Object();
 
             $("input[name=cartChkBox]:checked").each(function() {
@@ -132,7 +141,7 @@
                 data["cartItemId"] = cartItemId;
                 dataList.push(data);
             });
-
+            //paramData 객체에 cartOrderDtoList 속성을 추가하여 주문할 상품 리스트를 포함하는 json 구조로 변환한다.
             paramData['cartOrderDtoList'] = dataList;
 
             var param = JSON.stringify(paramData);
